@@ -285,7 +285,7 @@ jobs:
 
 ---
 
-# **Second Example: Deploy to SFTP/SSH Server**
+# **Second Example: Deploy to SFTP/SSH**
 
 ```yaml
 name: 🚀 Deploy project to SFTP server
@@ -329,7 +329,7 @@ jobs:
 
 ---
 
-# **Third Example: Deploy to FTP/CPanel Host**
+# **Third Example: Deploy to FTP/CPanel**
 
 ```yaml
 name: 🚀 Deploy project via FTP to cPanel
@@ -364,7 +364,7 @@ jobs:
 
 ---
 
-# **Third Example: Deploy to FTP/CPanel Host**
+# **Third Example: Deploy to FTP/CPanel**
 
 ```
       - name: 📤 Upload via FTP with custom port
@@ -380,7 +380,7 @@ jobs:
 
 ---
 
-# **Third Example: Deploy to FTP/CPanel Host**
+# **Third Example: Deploy to FTP/CPanel**
 
 Here is filemanager in our host before running the github actions:
 
