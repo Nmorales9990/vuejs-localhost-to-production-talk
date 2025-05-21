@@ -11,231 +11,246 @@ footer: Vue.js Global Summit 2025
 
 # **From Localhost to Production: CI/CD for Vue with GitHub Actions**
 
-Seyyed Ali Mohammadiyeh (Max Base)  
+Seyyed Ali Mohammadiyeh (Max Base)
 Vue.js Global Summit 25 - May 21, 2025
 
 ---
 
 # **About Me**
 
-**Seyyed Ali Mohammadiyeh (Max Base)**  
-Open-source Maintainer, GitHub  
-Senior Software Engineer  
-CTO, asrez  
-📧 maxbasecode@gmail.com
+**Seyyed Ali Mohammadiyeh (Max Base)**
+Open-source Maintainer, GitHub
+Senior Software Engineer
+CTO, asrez
+📧 [maxbasecode@gmail.com](mailto:maxbasecode@gmail.com)
 
 ---
 
 # **Experience**
 
-- 👨‍💻 GitHub: [https://github.com/basemax](https://github.com/basemax)  
-- 🧠 10+ years of experience in software development  
-- 🎓 Background in pure and applied mathematics with research experience  
+* 👨‍💻 GitHub: [https://github.com/basemax](https://github.com/basemax)
+* 🧠 10+ years of experience in software development
+* 🎓 Background in pure and applied mathematics with research experience
 
 ---
 
 # **Session Overview**
 
-Explore how **Bun** and **TypeScript** enable the creation of a high-performance, real-time gateway that routes incoming HTTP requests to the appropriate microservices.
+Learn how to create a **reliable, automated CI/CD pipeline** for your Vue.js applications using **GitHub Actions**.
 
-- Why traditional reverse proxies (like NGINX or Express) fall short in dynamic routing scenarios.
-- How Bun offers minimal latency, simplified logic, and better scalability.
+* Avoid manual and error-prone deployments
+* Automate linting, testing, building, and deploying
+* Cover static, dynamic, and Docker-based deployment targets
 
 ---
 
-## This talk includes:  
+## This talk includes:
 
-✅ Real-world architecture & benchmarks  
-✅ Code examples  
-✅ Lessons from production
+✅ Real-world CI/CD workflows
+✅ Demo-ready GitHub Actions templates
+✅ Deployment strategies + secrets management
 
 ---
 
 # **Goals of This Talk**
 
-1. Learn to build a real-time microservice gateway using **Bun + TypeScript**
-2. Discover how **Bun** can outperform Express/NGINX in dynamic routing
-3. Understand live request forwarding with minimal latency
+1. Build a complete Vue CI/CD pipeline using GitHub Actions
+2. Automate your Vue project from commit to deploy
+3. Customize workflows for any deployment environment
+4. Learn caching, environments, secrets, and rollback tactics
 
 ---
 
-# **Getting Started with Bun**
+# **Why Automate CI/CD?**
+
+* ❌ Manual deployments = time wasted + human error
+* ✅ Automation = faster feedback, confidence, and consistency
+* ⚖️ Works the same locally, on dev, and in production
+
+---
+
+# **What is GitHub Actions?**
+
+* Built-in CI/CD solution in GitHub
+* Define workflows as YAML files
+* Runs on push, pull\_request, schedule, etc.
+* Supports caching, matrix builds, environments, secrets, Docker
+
+---
+
+# **CI/CD Flow for Vue.js**
+
+1. ✨ Code (Vite + TypeScript)
+2. ✏️ Lint (ESLint, Prettier)
+3. ✅ Test (Vitest, Jest)
+4. 🚀 Build (Vite)
+5. 💾 Deploy (Static host, Docker, etc.)
+
+---
+
+# **Directory Structure**
 
 ```bash
-$ bun init
-
-✓ Select a project template: Blank
-
- + .gitignore
- + index.ts
- + tsconfig.json (for editor autocomplete)
-
-To get started, run:
-    bun run index.ts
-```
-
-```ts
-// index.ts
-console.log("Hello via Bun!");
-```
-
-----
-
-# Running your first Bun program
-
-```bash
-$ bun run index.ts
-Hello via Bun!
+.vue-project/
+├── .github/workflows/
+│   └── deploy.yml
+├── src/
+├── public/
+├── vite.config.ts
+├── package.json
 ```
 
 ---
 
-# **Why Bun?**
+# **Step 1: Basic GitHub Action**
 
-✅ Native HTTP server (no need for Express or external frameworks)  
-✅ Written in TypeScript  
-✅ Built-in routing based on URL, headers, or tokens  
-✅ Blazing fast  
-✅ Zero dependencies
+```yaml
+# .github/workflows/deploy.yml
+name: Vue CI/CD
+on: [push]
 
-**Downsides**:  
-⚠️ Type checking and runtime validation in TypeScript is still maturing.  
-⚠️ Limited ecosystem maturity compared to Node.js
-
----
-
-# **Using Bun.serve()**
-
-```ts
-const server = Bun.serve({
-  port: 9999,
-  fetch(req) {
-    return new Response("Not Found", { status: 404 });
-  },
-});
-```
-
-- Every incoming request triggers the `fetch()` function.
-- You can access request details through the `req` object.
-
----
-
-# **Accessing Request Details**
-
-```ts
-const server = Bun.serve({
-  port: 9999,
-  fetch(req) {
-    const url = new URL(req.url);
-    console.log(url);
-    return new Response("Not Found", { status: 404 });
-  },
-});
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: npm ci
+      - run: npm run build
 ```
 
 ---
 
+# **Add Linting & Testing**
 
-Example `req` (request) object:
-
-```ts
-Request {
-  method: "GET",
-  url: "http://localhost:9999/",
-  headers: Headers {
-    "host": "localhost:9999",
-    "user-agent": "...",
-    ...
-  }
-}
+```yaml
+      - run: npm run lint
+      - run: npm run test
 ```
 
-----
-
-Key values to use:
-
-- `req.method`
-- `req.url`
-- `req.headers`
-
----
-
-# **Parsed URL Object**
-
-Output of `new URL(req.url)`:
-
-```ts
-URL {
-  href: "http://localhost:9999/favicon.ico",
-  origin: "http://localhost:9999",
-  pathname: "/favicon.ico",
-  searchParams: URLSearchParams {}
-}
-```
-
----
-
-## Let's Create a Microservice Gateway
-
-Imagine we are working on a large-scale project with over 800 RESTful API routes.
-
-From an architectural perspective, we can split the entire platform into 20 sub-projects.
-
-Each of these 20 sub-projects runs independently and serves on a different HTTP port.
-
----
-
-## Let's Create a Microservice Gateway
-
-Now, we need a central gateway — a program that initially receives all incoming requests from end users. It should analyze each request to determine which sub-project or microservice it belongs to and then forward the request accordingly.
-
-The gateway must not only forward the request to the appropriate sub-project but also handle the response by forwarding it back to the user.
-
----
-
-## Let's create a config structure
-
+Make sure you have scripts in `package.json`:
 
 ```json
-{
-  "host": "0.0.0.0",
-  "port": 9999,
-  "services": [
-    {
-      "prefix": "/user/",
-      "host": "localhost",
-      "port": 8888
-    },
-    {
-      "path": "/my/login/",
-      "method": "POST",
-      "host": "localhost",
-      "port": 6666
-    },
-    ...
-  ]
+"scripts": {
+  "lint": "eslint .",
+  "test": "vitest"
 }
 ```
 
 ---
 
-# Coding
+# **Deployment Targets**
 
-Create a new Bun project:
+* 🌐 **Static hosts**: Netlify, Vercel, GitHub Pages
+* 🚨 **Dynamic servers**: Node, Nuxt SSR
+* 🚧 **Docker-based servers**: VPS, cloud infra (e.g. DigitalOcean)
 
-```
-bun init
+---
+
+# **Example: Deploy to GitHub Pages**
+
+```yaml
+      - run: npm run build
+      - uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
 ```
 
 ---
 
-# **Wrap Up**
+# **Example: Deploy to Custom SSH Server**
 
-- Bun + TypeScript = high-speed real-time gateways  
-- Ideal for scalable microservices with dynamic routing  
-- Simpler, faster, and more maintainable than traditional tools
+```yaml
+      - name: Upload via SCP
+        uses: appleboy/scp-action@v0.1.3
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          password: ${{ secrets.SERVER_PASS }}
+          source: "dist"
+          target: "/var/www/html"
+```
 
-**Thank you!**  
+---
 
-🔗 [github.com/basemax](https://github.com/basemax)  
-📧 maxbasecode@gmail.com
+# **Use Caching to Speed Up**
+
+```yaml
+      - uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: npm-${{ hashFiles('package-lock.json') }}
+```
+
+---
+
+# **Use Environments & Secrets**
+
+* Define secrets in GitHub Settings → Secrets
+* Access them via `${{ secrets.YOUR_SECRET }}`
+* Use Environments (dev, staging, prod) to control manual approvals
+
+---
+
+# **Rollback Strategies**
+
+* Keep previous release in a backup folder
+* Add health check after deploy
+* If failed, restore previous version
+
+```yaml
+      - name: Health Check
+        run: curl --fail https://example.com || exit 1
+```
+
+---
+
+# **Tips & Best Practices**
+
+* One job per stage (lint, test, build, deploy)
+* Use matrix to test on multiple Node versions
+* Keep workflows short and readable
+* Secure secrets, never hardcode credentials
+
+---
+
+# **Full Workflow Overview**
+
+```yaml
+on: [push]
+jobs:
+  lint:
+    ...
+  test:
+    ...
+  build:
+    ...
+  deploy:
+    ...
+```
+
+---
+
+# **Demo Time!**
+
+Let’s walk through a real Vue project using GitHub Actions end-to-end:
+✅ Lint → ✅ Test → ✅ Build → ✅ Deploy
+
+---
+
+# **Recap**
+
+* CI/CD saves time, prevents bugs, and increases confidence
+* GitHub Actions + Vue = scalable automation
+* Build once, deploy anywhere (static or dynamic)
+
+---
+
+# **Thank You!**
+
+🔗 [github.com/basemax](https://github.com/basemax)
+📧 [maxbasecode@gmail.com](mailto:maxbasecode@gmail.com)
+🌟 Happy Coding!
