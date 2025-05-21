@@ -1,0 +1,17 @@
+{
+  "host": "0.0.0.0",
+  "port": 9999,
+  "services": [
+    {
+      "prefix": "/user/",
+      "host": "localhost",
+      "port": 8888
+    },
+    {
+      "path": "/my/login/",
+      "method": "POST",
+      "host": "localhost",
+      "port": 6666
+    }
+  ]
+}
