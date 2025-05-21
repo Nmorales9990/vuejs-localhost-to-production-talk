@@ -159,6 +159,17 @@ Make sure you have scripts in `package.json`:
 
 ---
 
+# **Examples**
+
+- **First:** Auto deploy to GitHub Pages
+- **Second:** Auto deploy to SFTP/SSH Server
+- **Third:** Auto deploy to FTP/CPanel Host
+
+Let's do it one by one.
+
+---
+
+
 # **First Example: Deploy to GitHub Pages**
 
 For your local machine:
