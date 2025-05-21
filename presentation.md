@@ -57,7 +57,7 @@ Learn how to create a **reliable, automated CI/CD pipeline** for your Vue.js app
 1. Build a complete Vue CI/CD pipeline using GitHub Actions
 2. Automate your Vue project from commit to deploy
 3. Customize workflows for any deployment environment
-4. Learn caching, environments, secrets, and rollback tactics
+4. Learn environments, secrets, talk about rollback tactics
 
 ---
 
@@ -89,6 +89,8 @@ Learn how to create a **reliable, automated CI/CD pipeline** for your Vue.js app
 ---
 
 # **Directory Structure**
+
+GitHub actions files are located in `.github/workflows/` directory.
 
 ```bash
 .vue-project/
@@ -149,29 +151,160 @@ Make sure you have scripts in `package.json`:
 
 ---
 
-# **Example: Deploy to GitHub Pages**
+# **Use Environments & Secrets**
 
-```yaml
-      - run: npm run build
-      - uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist
+* Define secrets in GitHub Settings → Secrets
+* Access them via `${{ secrets.YOUR_SECRET }}`
+* Use Environments (dev, staging, prod) to control manual approvals
+
+---
+
+# **First Example: Deploy to GitHub Pages**
+
+For your local machine:
+
+```json
+{
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "deploy": "vite build && gh-pages -d dist"
+  }
+}
 ```
 
 ---
 
-# **Example: Deploy to Custom SSH Server**
+# **First Example: Deploy to GitHub Pages**
+
+For GitHub Actions:
+
+```json
+{
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "deploy": "vite build && gh-pages -d dist -u 'Max Base (Seyyed Ali Mohammadiyeh) <maxbasecode@gmail.com>' -r https://x-access-token:${GITHUB_TOKEN}@github.com/BaseMax/vuejs-cicd-deploy-on-github-pages.git"
+  }
+}
+```
+
+---
+
+# **First Example: Deploy to GitHub Pages**
 
 ```yaml
-      - name: Upload via SCP
-        uses: appleboy/scp-action@v0.1.3
+name: 🚀 Deploy project in GitHub Pages
+on:
+  push:
+    branches: [ main ]
+jobs:
+  gh-pages-deploy:
+    name: 🧩 Deploying code to gh-pages branch
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🔀 Checkout code from repository
+        uses: actions/checkout@v4
+      - name: 🛠 Setup Node version
+        uses: actions/setup-node@v4
         with:
-          host: ${{ secrets.SERVER_HOST }}
-          username: ${{ secrets.SERVER_USER }}
-          password: ${{ secrets.SERVER_PASS }}
-          source: "dist"
-          target: "/var/www/html"
+          node-version: 20.x
+      - name: 📦 Install dependencies
+        run: npm install
+      - name: 🙍‍♂️ Setup git user
+        run: |
+          git config user.name "Max Base (Seyyed Ali Mohammadiyeh)"
+          git config user.email "maxbasecode@gmail.com"
+      - name: 🏗 Deploy project
+        run: npm run deploy
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+```
+
+---
+
+# **Second Example: Deploy to SFTP/SSH Server**
+
+```yaml
+name: 🚀 Deploy project to SFTP server
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  sftp-deploy:
+    name: 🧩 Deploying to SSH SFTP
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🔀 Checkout code from repository
+        uses: actions/checkout@v4
+
+      - name: 🛠 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+
+      - name: 📦 Install dependencies
+        run: npm install
+
+      - name: 🧱 Build project
+        run: npm run build
+
+      - name: 📥 Install sshpass
+        run: sudo apt-get install -y sshpass
+
+      - name: 📤 Upload dist folder to remote SFTP server
+        run: |
+          sshpass -p "${{ secrets.SSH_PASSWORD }}" scp -o StrictHostKeyChecking=no -P ${{ secrets.SSH_PORT }} -r dist/* ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_IP }}:${{ secrets.SSH_PATH }}
+```
+
+---
+
+# **Third Example: Deploy to FTP/CPanel Host**
+
+```yaml
+name: 🚀 Deploy project via FTP to cPanel
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  ftp-deploy:
+    name: 📡 Deploying via FTP to cPanel
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🔀 Checkout code from repository
+        uses: actions/checkout@v4
+
+      - name: 🛠 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+
+      - name: 📦 Install dependencies
+        run: npm install
+
+      - name: 🧱 Build project
+        run: npm run build
+
+      - name: 📥 Install lftp
+        run: sudo apt-get install -y lftp
+
+      - name: 📤 Upload via FTP with custom port
+        run: |
+          lftp -u "${{ secrets.FTP_USERNAME }},${{ secrets.FTP_PASSWORD }}" -p ${{ secrets.FTP_PORT }} ${{ secrets.FTP_HOST }} -e "
+            set dns:order inet;
+            set ftp:ssl-allow no;
+            set ssl:verify-certificate no;
+            mirror -R -e -n dist ${{ secrets.FTP_PATH }};
+            bye
+          "
 ```
 
 ---
@@ -184,14 +317,6 @@ Make sure you have scripts in `package.json`:
           path: ~/.npm
           key: npm-${{ hashFiles('package-lock.json') }}
 ```
-
----
-
-# **Use Environments & Secrets**
-
-* Define secrets in GitHub Settings → Secrets
-* Access them via `${{ secrets.YOUR_SECRET }}`
-* Use Environments (dev, staging, prod) to control manual approvals
 
 ---
 
