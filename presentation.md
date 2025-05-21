@@ -186,7 +186,9 @@ For GitHub Actions:
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "deploy": "vite build && gh-pages -d dist -u 'Max Base (Seyyed Ali Mohammadiyeh) <maxbasecode@gmail.com>' -r https://x-access-token:${GITHUB_TOKEN}@github.com/BaseMax/vuejs-cicd-deploy-on-github-pages.git"
+    "deploy": "vite build && gh-pages -d dist
+      -u 'Max Base (Seyyed Ali Mohammadiyeh) <maxbasecode@gmail.com>'
+      -r https://x-access-token:${GITHUB_TOKEN}@github.com/BaseMax/vuejs-cicd-deploy-on-github-pages.git"
   }
 }
 ```
@@ -213,6 +215,11 @@ jobs:
           node-version: 20.x
       - name: 📦 Install dependencies
         run: npm install
+```
+
+# **First Example: Deploy to GitHub Pages**
+
+```yaml
       - name: 🙍‍♂️ Setup git user
         run: |
           git config user.name "Max Base (Seyyed Ali Mohammadiyeh)"
@@ -254,6 +261,11 @@ jobs:
       - name: 🧱 Build project
         run: npm run build
 
+```
+
+# **Second Example: Deploy to SFTP/SSH Server**
+
+```yaml
       - name: 📥 Install sshpass
         run: sudo apt-get install -y sshpass
 
@@ -295,7 +307,13 @@ jobs:
 
       - name: 📥 Install lftp
         run: sudo apt-get install -y lftp
+```
 
+---
+
+# **Third Example: Deploy to FTP/CPanel Host**
+
+```
       - name: 📤 Upload via FTP with custom port
         run: |
           lftp -u "${{ secrets.FTP_USERNAME }},${{ secrets.FTP_PASSWORD }}" -p ${{ secrets.FTP_PORT }} ${{ secrets.FTP_HOST }} -e "
