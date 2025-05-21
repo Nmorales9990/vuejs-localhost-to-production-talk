@@ -127,6 +127,8 @@ jobs:
 
 # **Add Linting & Testing**
 
+✅ Lint → ✅ Test → ✅ Build → ✅ Deploy
+
 ```yaml
       - run: npm run lint
       - run: npm run test
@@ -159,6 +161,47 @@ Make sure you have scripts in `package.json`:
 
 ---
 
+# **Settings**
+
+You can find settings of your repository at top of your repository page:
+
+![](settings.jpg)
+
+---
+
+# **Settings - Actions**
+
+
+In settings page, you can find Actions in the left sidebar:
+
+![](settings-actions.jpg)
+
+---
+
+# **Use Environments & Secrets**
+
+In settings actions envirnment variable, you can manage and add/edit/delete your secret variables:
+
+![](settings-actions-vars.jpg)
+
+---
+
+# **Write access for your GitHub Actions**
+
+Sometime you need write access inside your github actions, in this case you need to check and enable it in repository settings:
+
+![](workflow-write.jpg)
+
+---
+
+# **Demo Time!**
+
+Let’s walk through a real Vue project using GitHub Actions end-to-end:
+
+✅ Build → ✅ Connect → ✅ Deploy
+
+---
+
 # **Examples**
 
 - **First:** Auto deploy to GitHub Pages
@@ -168,7 +211,6 @@ Make sure you have scripts in `package.json`:
 Let's do it one by one.
 
 ---
-
 
 # **First Example: Deploy to GitHub Pages**
 
@@ -338,6 +380,14 @@ jobs:
 
 ---
 
+# **Third Example: Deploy to FTP/CPanel Host**
+
+Here is filemanager in our host before running the github actions:
+
+![](cpanel-files.jpg)
+
+---
+
 # **Use Caching to Speed Up**
 
 ```yaml
@@ -385,13 +435,6 @@ jobs:
   deploy:
     ...
 ```
-
----
-
-# **Demo Time!**
-
-Let’s walk through a real Vue project using GitHub Actions end-to-end:
-✅ Lint → ✅ Test → ✅ Build → ✅ Deploy
 
 ---
 
