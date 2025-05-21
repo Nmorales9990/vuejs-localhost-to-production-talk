@@ -394,6 +394,8 @@ jobs:
           "
 ```
 
+---
+
 # **Third Example: Deploy to FTP/CPanel**
 
 Envirnment variables for this FTP github actions:
