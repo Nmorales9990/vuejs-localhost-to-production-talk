@@ -329,6 +329,22 @@ jobs:
 
 ---
 
+# **Second Example: Deploy to SFTP/SSH Server**
+
+After running the deployment, you can ese directory, and files all created in your server via SSH:
+
+![](ssh-files.jpg)
+
+---
+
+# **Second Example: Deploy to SFTP/SSH Server**
+
+Envirnment variables for this SSH github actions:
+
+![](ssh-vars.jpg)
+
+---
+
 # **Third Example: Deploy to FTP/CPanel**
 
 ```yaml
@@ -377,6 +393,12 @@ jobs:
             bye
           "
 ```
+
+# **Third Example: Deploy to FTP/CPanel**
+
+Envirnment variables for this FTP github actions:
+
+![](ftp-vars.jpg)
 
 ---
 
