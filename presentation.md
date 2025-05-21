@@ -446,6 +446,17 @@ jobs:
 
 ---
 
+# **Public Examples**
+
+Open-Source repositories:
+
+- https://github.com/BaseMax/vuejs-cicd-deploy-on-github-pages
+- https://github.com/BaseMax/vuejs-cicd-deploy-ftp-cpanel
+- https://github.com/BaseMax/vuejs-cicd-deploy-sftp-ssh
+- https://github.com/BaseMax/vuejs-localhost-to-production-talk
+
+---
+
 # **Thank You!**
 
 🔗 [github.com/basemax](https://github.com/basemax)
